@@ -12,7 +12,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity {
 
     CircleImageView weight,temp,angle,curr;
-    String msg = null;
     TextView result;
 
     FragmentManager fragmentManager;

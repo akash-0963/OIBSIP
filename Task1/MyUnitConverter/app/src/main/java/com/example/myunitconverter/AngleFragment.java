@@ -7,37 +7,96 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class AngleFragment extends Fragment {
+public class AngleFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     Spinner spinnerFrom,spinnerTo;
 
-    public static AngleFragment newInstance() {
-        AngleFragment fragment = new AngleFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
+    public static String ErrorMsg = "Plz choose the correct options";
+    Button convert;
+    EditText input;
+    TextView output;
+    float inputvalue,outputvalue;
+    String case1,case2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_weight,container, false);
-        spinnerFrom = (Spinner)view.findViewById(R.id.spinner_from);
-        spinnerTo = (Spinner)view.findViewById(R.id.spinner_to);
-        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(requireActivity().getBaseContext(), R.array.Angle, android.R.layout.simple_spinner_item);
+        spinnerFrom = view.findViewById(R.id.spinner_from);
+        spinnerTo = view.findViewById(R.id.spinner_to);
+        convert = view.findViewById(R.id.button_convert);
+        input = view.findViewById(R.id.editText_Input);
+        output = view.findViewById(R.id.editText_output);
+
+        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(requireActivity()
+                        .getBaseContext(),
+                R.array.Angle,
+                android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFrom.setAdapter(adapter);
         spinnerTo.setAdapter(adapter);
+
+
+        spinnerFrom.setOnItemSelectedListener(this);
+        spinnerTo.setOnItemSelectedListener(this);
+
+        convert.setOnClickListener(v -> {
+            case1 = String.valueOf(spinnerFrom.getSelectedItem());
+            case2 = String.valueOf(spinnerTo.getSelectedItem());
+            inputvalue = Float.parseFloat(input.getText().toString());
+            switch (case1) {
+                case "Degree":
+                    switch (case2){
+                        case "Degree":
+                            outputvalue = inputvalue;
+                            output.setText(String.format("%s Deg", outputvalue));
+                            break;
+                        case "Radian":
+                            outputvalue = inputvalue / 180;
+                            output.setText(String.format("%s \u03C0 Rad", outputvalue));
+                            break;
+                        default:
+                            Toast.makeText(requireActivity().getBaseContext(), ErrorMsg+ case2, Toast.LENGTH_SHORT)
+                                    .show();
+                    }
+                    break;
+                case "Radian":
+                    switch (case2){
+                        case "Degree":
+                            outputvalue = inputvalue * 180;
+                            output.setText(String.format("%s Deg", outputvalue));
+                            break;
+                        case "Radian":
+                            outputvalue = inputvalue;
+                            output.setText(String.format("%s \u03C0 Rad", outputvalue));
+                            break;
+                        default:
+                            Toast.makeText(requireActivity().getBaseContext(), ErrorMsg+ case2, Toast.LENGTH_SHORT)
+                                    .show();
+                    }
+                    break;
+                default:
+                    Toast.makeText(requireActivity().getBaseContext(), ErrorMsg, Toast.LENGTH_SHORT)
+                            .show();
+            }
+        });
+
+
         return view;
     }
+
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+
+
+    }
+    public void onNothingSelected(AdapterView<?> parent) { }
 }
