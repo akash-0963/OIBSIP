@@ -19,11 +19,21 @@ public class TempFragment extends Fragment implements AdapterView.OnItemSelected
 
     Spinner spinnerFrom,spinnerTo;
 
+    //default error msg
     public static String ErrorMsg = "Plz choose the correct options";
+
+    //button for performing conversion operation
     Button convert;
+
+    //input and output texts
     EditText input;
     TextView output;
+
+    //variables to store input and output values
     double inputvalue,outputvalue;
+
+    //these strings are user selection where case1= From which unit
+    //case2 = to which unit
     String case1,case2;
 
     @Override
@@ -36,6 +46,7 @@ public class TempFragment extends Fragment implements AdapterView.OnItemSelected
         input = view.findViewById(R.id.editText_Input);
         output = view.findViewById(R.id.editText_output);
 
+        //creating arrayAdapter for a spinner
         ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(requireActivity()
                         .getBaseContext(),
                 R.array.Temperature,
@@ -52,6 +63,8 @@ public class TempFragment extends Fragment implements AdapterView.OnItemSelected
             case1 = String.valueOf(spinnerFrom.getSelectedItem());
             case2 = String.valueOf(spinnerTo.getSelectedItem());
             inputvalue = Double.parseDouble(input.getText().toString());
+
+            //switch statements to perform functionality of conversion
             switch (case1) {
                 case "Celsius":
                     switch (case2){

@@ -19,11 +19,21 @@ public class AngleFragment extends Fragment implements AdapterView.OnItemSelecte
 
     Spinner spinnerFrom,spinnerTo;
 
+    //default error msg
     public static String ErrorMsg = "Plz choose the correct options";
+
+    //button for performing conversion operation
     Button convert;
+
+    //input and output texts
     EditText input;
     TextView output;
+
+    //variables to store input and output values
     float inputvalue,outputvalue;
+
+    //these strings are user selection where case1= From which unit
+    //case2 = to which unit
     String case1,case2;
 
     @Override
@@ -36,6 +46,7 @@ public class AngleFragment extends Fragment implements AdapterView.OnItemSelecte
         input = view.findViewById(R.id.editText_Input);
         output = view.findViewById(R.id.editText_output);
 
+        //creating arrayAdapter for a spinner
         ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(requireActivity()
                         .getBaseContext(),
                 R.array.Angle,
@@ -44,7 +55,6 @@ public class AngleFragment extends Fragment implements AdapterView.OnItemSelecte
         spinnerFrom.setAdapter(adapter);
         spinnerTo.setAdapter(adapter);
 
-
         spinnerFrom.setOnItemSelectedListener(this);
         spinnerTo.setOnItemSelectedListener(this);
 
@@ -52,6 +62,8 @@ public class AngleFragment extends Fragment implements AdapterView.OnItemSelecte
             case1 = String.valueOf(spinnerFrom.getSelectedItem());
             case2 = String.valueOf(spinnerTo.getSelectedItem());
             inputvalue = Float.parseFloat(input.getText().toString());
+
+            //switch statements to perform functionality of conversion
             switch (case1) {
                 case "Degree":
                     switch (case2){
@@ -95,8 +107,7 @@ public class AngleFragment extends Fragment implements AdapterView.OnItemSelecte
 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
-
-
     }
+
     public void onNothingSelected(AdapterView<?> parent) { }
 }

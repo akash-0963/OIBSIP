@@ -11,9 +11,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Image view's
     CircleImageView weight,temp,angle,curr;
+
+    //converter name
     TextView result;
 
+    //Fragment manager initialization for management of fragments
     FragmentManager fragmentManager;
 
     @Override
@@ -26,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         angle = findViewById(R.id.angle_image);
         curr = findViewById(R.id.curr_image);
 
+
+        /* I have used fragments here to write the code of background working of my app which have
+           similar layout but different values/symbols & formulas used */
         weight.setOnClickListener(v -> {
             fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
